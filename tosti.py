@@ -12,6 +12,8 @@ def order(args):
 
 
 if __name__ == '__main__':
+    from dotenv import load_dotenv
+
     # setup argument parsers
     import argparse
 
