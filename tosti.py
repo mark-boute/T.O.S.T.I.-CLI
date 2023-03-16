@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import os
+
 
 # Todo, move to bin directory
 
@@ -13,16 +15,23 @@ def order(args):
 
 if __name__ == '__main__':
     from dotenv import load_dotenv
+    load_dotenv()
+    MY_CONST = os.getenv('MY_CONST')
+
 
     # setup argument parsers
     import argparse
 
     from functools import wraps
+
+
     def map_subparser_to_func(func, subparser):
         @wraps(func)
         def wrapper(*args, **kwargs):
             return func(subparser, *args, **kwargs)
+
         return wrapper
+
 
     parser = argparse.ArgumentParser(
         prog='T.O.S.T.I. CLI',
@@ -34,35 +43,35 @@ if __name__ == '__main__':
     # order parser and options
     order_parser = subparsers.add_parser('order')
     order_parser.add_argument('-c', '--cheese',
-                        required=False,
-                        help="Add 'i' cheese tosti's to your order",
-                        dest='cheese',
-                        type=int, default=0,
-                        metavar='i'
-    )
+                              required=False,
+                              help="Add 'i' cheese tosti's to your order",
+                              dest='cheese',
+                              type=int, default=0,
+                              metavar='i'
+                              )
     order_parser.add_argument('-hc', '--ham-cheese',
-                        required=False,
-                        help="Add 'i' ham-cheese tosti's to your order",
-                        dest='ham_cheese',
-                        type=int, default=0,
-                        metavar='i'
-    )
-    order_parser.set_defaults(func= map_subparser_to_func(order, order_parser))
+                              required=False,
+                              help="Add 'i' ham-cheese tosti's to your order",
+                              dest='ham_cheese',
+                              type=int, default=0,
+                              metavar='i'
+                              )
+    order_parser.set_defaults(func=map_subparser_to_func(order, order_parser))
 
     # authentication parser and options
     auth_parser = subparsers.add_parser('auth')
     auth_parser.add_argument('-u', '--username',
-                        required=True,
-                        dest='username',
-                        help="Username (s-number)",
-                        type=str, default='',
-                        metavar='s-number'
-    )
+                             required=True,
+                             dest='username',
+                             help="Username (s-number)",
+                             type=str, default='',
+                             metavar='s-number'
+                             )
     auth_parser.add_argument('-p', '--password',
-                        required=True,
-                        dest='password',
-                        help="Password for s-number",
-                        type=str, default='',
-                        metavar='password'
-    )
-    auth_parser.set_defaults(func= map_subparser_to_func(auth, auth_parser))
+                             required=True,
+                             dest='password',
+                             help="Password for s-number",
+                             type=str, default='',
+                             metavar='password'
+                             )
+    auth_parser.set_defaults(func=map_subparser_to_func(auth, auth_parser))
